@@ -25,10 +25,6 @@ function Neod3Renderer() {
 
     var serializer = null;
 
-    var $downloadSvgLink = $('<a href="#" class="btn btn-success visualization-download" target="_blank"><i class="icon-download-alt"></i> Download SVG</a>').hide().click(function () {
-        $downloadSvgLink.hide();
-    });
-    var downloadSvgLink = $downloadSvgLink[0];
     var blobSupport = 'Blob' in window;
     var URLSupport = 'URL' in window && 'createObjectURL' in window.URL;
     var msBlobSupport = typeof window.navigator.msSaveOrOpenBlob !== 'undefined';
@@ -236,40 +232,14 @@ function Neod3Renderer() {
             renderer.call(graphView);
         }
 
-        function saveToSvg() {
-            var svgElement = $('#' + id).children('svg').first()[0];
-            var xml = serializeSvg(svgElement, $container);
-            if (!msBlobSupport && downloadSvgLink.href !== '#') {
-                window.URL.revokeObjectURL(downloadSvgLink.href);
-            }
-            var blob = new window.Blob([xml], {
-                'type': 'image/svg+xml'
-            });
-            var fileName = id + '.svg';
-            if (!msBlobSupport) {
-                downloadSvgLink.href = window.URL.createObjectURL(blob);
-                $downloadSvgLink.appendTo($container).show();
-                $downloadSvgLink.attr('download', fileName);
-            } else {
-                window.navigator.msSaveOrOpenBlob(blob, fileName);
-            }
-        }
-
-        function getFunctions() {
-            var funcs = {};
-            if (blobSupport && (URLSupport || msBlobSupport)) {
-                funcs['icon-download-alt'] = {'title': 'Save as SVG', 'func':saveToSvg};
-            }
-            return funcs;
-        }
+        
 
         return  {
             'subscriptions': {
                 'expand': refresh,
                 'contract': refresh,
                 'sizeChange': refresh
-            },
-            'actions': getFunctions()
+            }
         };
     }
 
@@ -291,11 +261,6 @@ function Neod3Renderer() {
             .replace(/<g/, '\n' + svgStyling + '\n<g');
         return svg;
     }
-
-    $.get(stylingUrl, function (data) {
-        svgStyling = '<style>\n' + data + '\n</style>';
-        $(svgStyling).appendTo('head');
-    });
 
     return {'render': render};
 }

@@ -1,18 +1,13 @@
 function Neo(url) {
 	var me = {
         getData: function(cb) {
-            $.ajax(url, {
-				type: "GET",
-				contentType: "application/json",
-				error: function(err) {
-					cb(err);
-				},
-                success: function(res) {
-					if (res.errors.length > 0) {
-						cb(res.errors);
+            axios.get(url)
+            .then(function (response) {
+                data = response.data;
+                if (data.errors.length > 0) {
+						cb(data.errors);
 					} else {
-						console.log(res);
-						var cols = res.results[0].columns;
+						var cols = data.results[0].columns;
 						var rows;
 						var nodes = [];
 						var rels = [];
@@ -23,7 +18,7 @@ function Neo(url) {
 						   }
 						   return -1;
 					    }
-						res.results[0].data.forEach(function(row) {
+						data.results[0].data.forEach(function(row) {
 							row.graph.nodes.forEach(function(n) {
 							   var found = nodes.filter(function (m) { return m.id == n.id; }).length > 0;
 							   if (!found) {
@@ -41,7 +36,9 @@ function Neo(url) {
 						});
 						cb(null,{table:rows,graph:{nodes:nodes, links:rels},labels:labels});
 					}
-				}
+            })
+            .catch(function (error) {
+                console.log(error);
             });
         }
 	};

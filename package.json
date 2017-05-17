@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/baktakt/cy2neo/issues"
   },
-  "homepage": "https://github.com/baktakt/cy2neo#readme"
+  "homepage": "https://github.com/baktakt/cy2neo#readme",
+  "devDependencies": {
+    "gulp-concat": "^2.6.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.1.2"
+  }
 }

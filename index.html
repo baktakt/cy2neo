@@ -1,25 +1,24 @@
 <html>
 <head>
-<link rel="stylesheet" href="styles/cy2neo.css">
+<link rel="stylesheet" href="styles/tilde2neo.css">
 <link rel="stylesheet" href="styles/neod3.css">
 </head>
 <body>
 <div id="graph">&nbsp;</div>
 
-<script src="scripts/vendor.js"></script>
-<script src="scripts/neod3.js"></script>
-<script src="scripts/neod3-visualization.js"></script>
-<script src="scripts/tilde4d3.js"></script>
-<script src="scripts/tilde2neod3.js"></script>
+<script src="https://unpkg.com/react@15/dist/react.js"></script>
+<script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
+<script src="dist/scripts/visualizer.min.js"></script>
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    
 		//todo dynamic configuration
 		var config = {}
-	  var url = "http://localhost:8080/tildedata.json";
+	  var url = "http://isittrue-articles.azurewebsites.net/articles/test";
 		new Tilde2NeoD3(config, "graph", url, true);
-	});
+	
 </script>
 </body>
 </html>
