@@ -1,0 +1,19 @@
+{
+  "name": "cy2neo",
+  "version": "1.0.0",
+  "description": "== Cy2Neo - Tiny Neo4j Cypher Workbench with custom D3 Visualization",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/baktakt/cy2neo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/baktakt/cy2neo/issues"
+  },
+  "homepage": "https://github.com/baktakt/cy2neo#readme"
+}

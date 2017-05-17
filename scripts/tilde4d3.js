@@ -1,41 +1,19 @@
-function Neo(urlSource) {
-	function txUrl() {
-		var connection = urlSource();
-		var url = (connection.url || "http://localhost:7474").replace(/\/db\/data.*/,"");
-		return url + "/db/data/transaction/commit";
-	}
+function Neo(url) {
 	var me = {
-		executeQuery: function(query, params, cb) {
-			var connection = urlSource();
-			var auth = ((connection.user || "") == "") ? "" : "Basic " + btoa(connection.user + ":" + connection.pass);
-			$.ajax(txUrl(), {
-				type: "POST",
-				data: JSON.stringify({
-					statements: [{
-						statement: query,
-						parameters: params || {},
-						resultDataContents: ["row", "graph"]
-					}]
-				}),
+        getData: function(cb) {
+            $.ajax(url, {
+				type: "GET",
 				contentType: "application/json",
 				error: function(err) {
 					cb(err);
 				},
-				beforeSend: function (xhr) {
-				    if (auth && auth.length) xhr.setRequestHeader ("Authorization", auth);
-				},
-				success: function(res) {
+                success: function(res) {
 					if (res.errors.length > 0) {
 						cb(res.errors);
 					} else {
+						console.log(res);
 						var cols = res.results[0].columns;
-						var rows = res.results[0].data.map(function(row) {
-							var r = {};
-							cols.forEach(function(col, index) {
-								r[col] = row.row[index];
-							});
-							return r;
-						});
+						var rows;
 						var nodes = [];
 						var rels = [];
 						var labels = [];
@@ -64,8 +42,8 @@ function Neo(urlSource) {
 						cb(null,{table:rows,graph:{nodes:nodes, links:rels},labels:labels});
 					}
 				}
-			});
-		}
+            });
+        }
 	};
 	return me;
 }
